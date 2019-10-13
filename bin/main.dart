@@ -75,22 +75,24 @@ main() {
   int count = 1;
   int i = 1;
   var boardSize = 3;
-  List<List<String>> board =
-      List.generate(boardSize, (_) => List.filled(boardSize, ' '));
+  List<List<String>> board = List.generate(boardSize, (_) => List.filled(boardSize, ' '));
+  bool x = false;
   printBoard(board);
-  while (i <= 9) {
+  while (i <= 9&&(!x)) {
     if (count % 2 != 0) {
       print('X\'s move ');
       input = stdin.readLineSync();
       if (board[rowGetter(input)][colGetter(input)] == ' ') {
         board[rowGetter(input)][colGetter(input)] = 'X';
         printBoard(board);
+        x=winnerGetter(board);
       } else {
         print('invalid move');
         print('X\'s move ');
         input = stdin.readLineSync();
         board[rowGetter(input)][colGetter(input)] = 'X';
         printBoard(board);
+        x=winnerGetter(board);
       }
       count += 1;
     } else {
@@ -99,16 +101,44 @@ main() {
       if (board[rowGetter(input)][colGetter(input)] == ' ') {
         board[rowGetter(input)][colGetter(input)] = 'O';
         printBoard(board);
+        x=winnerGetter(board);
       } else {
         print('invalid move');
         print('O\'s move ');
         input = stdin.readLineSync();
         board[rowGetter(input)][colGetter(input)] = 'O';
         printBoard(board);
+       x=  winnerGetter(board);
       }
       count += 1;
     }
     i += 1;
+  }
+}
+
+bool winnerGetter(List<List<String>> x) {
+  if ((x[0][0] == x[0][1] && x[0][1] == x[0][2] && x[0][2] == 'X') ||
+      (x[1][0] == x[1][1] && x[1][1] == x[1][2] && x[1][2] == 'X') ||
+      (x[2][0] == x[2][1] && x[2][1] == x[2][2] && x[2][2] == 'X') ||
+      (x[0][0] == x[1][0] && x[1][0] == x[2][0] && x[2][0] == 'X') ||
+      (x[0][1] == x[1][1] && x[1][1] == x[2][1] && x[2][1] == 'X') ||
+      (x[0][2] == x[1][2] && x[1][2] == x[2][2] && x[2][2] == 'X') ||
+      (x[0][0] == x[1][1] && x[1][1] == x[2][2] && x[2][2] == 'X') ||
+      (x[0][2] == x[1][1] && x[1][1] == x[2][0] && x[2][0] == 'X')) {
+    print('X is winner');
+    return true;
+  } else if ((x[0][0] == x[0][1] && x[0][1] == x[0][2] && x[0][2] == 'O') ||
+      (x[1][0] == x[1][1] && x[1][1] == x[1][2] && x[1][2] == 'O') ||
+      (x[2][0] == x[2][1] && x[2][1] == x[2][2] && x[2][2] == 'O') ||
+      (x[0][0] == x[1][0] && x[1][0] == x[2][0] && x[2][0] == 'O') ||
+      (x[0][1] == x[1][1] && x[1][1] == x[2][1] && x[2][1] == 'O') ||
+      (x[0][2] == x[1][2] && x[1][2] == x[2][2] && x[2][2] == 'O') ||
+      (x[0][0] == x[1][1] && x[1][1] == x[2][2] && x[2][2] == 'O') ||
+      (x[0][2] == x[1][1] && x[1][1] == x[2][0] && x[2][0] == 'O')) {
+    print('O is winner');
+    return true;
+  } else {
+    return false;
   }
 }
 
